@@ -44,3 +44,16 @@ func GetUserById(id uuid.UUID) (*models.User, error) {
 
 	return user, err
 }
+
+func AddUser(user *models.User) (*models.User, error) {
+	err := repository.AddUser(user)
+	if err != nil {
+		logrus.Errorf("error adding user: %s", err.Error())
+		return nil, &models.CustomError{
+			Message: "Failed to add user",
+			Code:    http.StatusInternalServerError,
+		}
+	}
+
+	return user, nil
+}
