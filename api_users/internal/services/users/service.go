@@ -69,3 +69,16 @@ func UpdateUser(user *models.User) (*models.User, error) {
 
 	return user, nil
 }
+
+func DeleteUser(id uuid.UUID) error {
+	err := repository.DeleteUser(id)
+	if err != nil {
+		logrus.Errorf("error deleting user: %s", err.Error())
+		return &models.CustomError{
+			Message: "Failed to delete user",
+			Code:    http.StatusInternalServerError,
+		}
+	}
+
+	return nil
+}

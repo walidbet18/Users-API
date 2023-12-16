@@ -22,6 +22,7 @@ func main() {
 			r.Use(users.Ctx)
 			r.Get("/", users.GetUser)
 			r.Put("/", users.EditUser)
+			r.Delete("/", users.DeleteUser)
 
 		})
 	})
