@@ -1,12 +1,29 @@
 package main
 
 import (
+	"net/http"
+	"users/internal/controllers/users"
 	"users/internal/helpers"
+	_ "users/internal/models"
+	_ "users/internal/repositories/users"
 
+	"github.com/go-chi/chi/v5"
 	"github.com/sirupsen/logrus"
 )
 
 func main() {
+	r := chi.NewRouter()
+
+	r.Route("/users", func(r chi.Router) {
+		r.Get("/", users.GetUsers)
+		r.Route("/{id}", func(r chi.Router) {
+			r.Get("/", users.GetUser)
+
+		})
+	})
+
+	logrus.Info("[INFO] Web server started. Now listening on *:8080")
+	logrus.Fatalln(http.ListenAndServe(":8080", r))
 
 }
 
@@ -20,7 +37,7 @@ func init() {
     id UUID PRIMARY KEY,
     username VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL,
-	age   INT NOT NULL,
+	age INT NOT NULL
 )`,
 	}
 	for _, scheme := range schemes {
