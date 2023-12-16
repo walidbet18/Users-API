@@ -67,3 +67,18 @@ func AddUser(user *models.User) error {
 
 	return nil
 }
+
+func EditUser(user *models.User) error {
+	db, err := helpers.OpenDB()
+	if err != nil {
+		return err
+	}
+	defer helpers.CloseDB(db)
+
+	_, err = db.Exec("UPDATE users SET username = ?, email = ?, age = ? WHERE id = ?", user.Username, user.Email, user.Age, user.ID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

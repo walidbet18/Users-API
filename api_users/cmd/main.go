@@ -6,6 +6,7 @@ import (
 	"users/internal/helpers"
 	_ "users/internal/models"
 	_ "users/internal/repositories/users"
+	_ "users/internal/services/users"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/sirupsen/logrus"
@@ -18,7 +19,9 @@ func main() {
 		r.Get("/", users.GetUsers)
 		r.Post("/", users.AddUser)
 		r.Route("/{id}", func(r chi.Router) {
+			r.Use(users.Ctx)
 			r.Get("/", users.GetUser)
+			r.Put("/", users.EditUser)
 
 		})
 	})

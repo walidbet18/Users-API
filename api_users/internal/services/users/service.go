@@ -57,3 +57,15 @@ func AddUser(user *models.User) (*models.User, error) {
 
 	return user, nil
 }
+func UpdateUser(user *models.User) (*models.User, error) {
+	err := repository.EditUser(user)
+	if err != nil {
+		logrus.Errorf("error updating user: %s", err.Error())
+		return nil, &models.CustomError{
+			Message: "Failed to update user",
+			Code:    http.StatusInternalServerError,
+		}
+	}
+
+	return user, nil
+}

@@ -2,7 +2,6 @@ package users
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"users/internal/models"
 	"users/internal/services/users"
@@ -24,7 +23,6 @@ import (
 func GetUser(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	userId, _ := ctx.Value("userId").(uuid.UUID)
-	fmt.Print(userId.String())
 	user, err := users.GetUserById(userId)
 	if err != nil {
 		logrus.Errorf("error : %s", err.Error())
